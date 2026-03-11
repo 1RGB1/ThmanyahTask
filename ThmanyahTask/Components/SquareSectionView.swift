@@ -25,13 +25,14 @@ struct SquareSectionView: View {
 
 struct SquareView: View {
     let item: ContentItemDisplay
+    let imageSize: CGFloat = 100
     
     var body: some View {
         VStack(spacing: 8) {
             Image(.test)
                 .resizable()
                 .scaledToFill()
-                .frame(height: 50)
+                .frame(width: imageSize, height: imageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
             
             VStack(alignment: .leading, spacing: 4) {
@@ -64,7 +65,6 @@ struct SquareView: View {
         }
         .background(Color.clear)
         .clipShape(RoundedRectangle(cornerRadius: 8))
-        .frame(width: 100)
     }
 }
 
