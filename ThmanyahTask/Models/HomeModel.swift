@@ -6,7 +6,7 @@
 //  Copyright © 2026 Ahmad Ragab. All rights reserved.
 //
 
-struct HomeModel: Codable, Sendable {
+struct HomeModel: Decodable, Sendable {
     let sections: [SectionModel]
     let pagination: PaginationModel
 }
