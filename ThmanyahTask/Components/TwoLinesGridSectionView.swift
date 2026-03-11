@@ -43,8 +43,8 @@ struct TwoLinesGridView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8))
             
             VStack(alignment: .leading, spacing: 4) {
-                if let subtitle = item.subtitle, !subtitle.isEmpty {
-                    Text(subtitle)
+                if let autherName = item.autherName, !autherName.isEmpty {
+                    Text(autherName)
                         .font(.thamanyahThin(10))
                         .foregroundStyle(Color.secondary)
                         .lineLimit(1)
@@ -57,17 +57,33 @@ struct TwoLinesGridView: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
+                if let subtitle = item.subtitle, !subtitle.isEmpty {
+                    Text(subtitle)
+                        .font(.thamanyahThin(10))
+                        .foregroundStyle(Color.secondary)
+                        .lineLimit(2)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                
                 Spacer()
                 
                 HStack {
                     if let duration = item.duration {
-                        Text(duration)
-                            .font(.thamanyahThin(10))
-                            .foregroundStyle(Color.white)
-                            .lineLimit(1)
-                            .padding(5)
-                            .background(Color.gray)
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                        HStack(spacing: 4) {
+                            Image(systemName: "play.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 5, height: 5)
+                            
+                            Text(duration)
+                                .font(.thamanyahBold(8))
+                                .foregroundStyle(Color.white)
+                                .lineLimit(1)
+                        }
+                        .padding(5)
+                        .background(Color.gray)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
                     
                     Spacer()
@@ -114,5 +130,4 @@ struct TwoLinesGridView: View {
         )
     )
     .frame(height: 136)
-    .environment(\.layoutDirection, .rightToLeft)
 }

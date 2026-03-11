@@ -42,13 +42,20 @@ struct SquareView: View {
                 
                 HStack {
                     if let duration = item.duration {
-                        Text(duration)
-                            .font(.thamanyahThin(10))
-                            .foregroundStyle(Color.white)
-                            .lineLimit(1)
-                            .padding(5)
-                            .background(Color.gray)
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                        HStack(spacing: 4) {
+                            Image(systemName: "play.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 5, height: 5)
+                            
+                            Text(duration)
+                                .font(.thamanyahBold(8))
+                                .foregroundStyle(Color.white)
+                                .lineLimit(1)
+                        }
+                        .padding(5)
+                        .background(Color.gray)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
                     
                     if let subtitle = item.subtitle, !subtitle.isEmpty {
@@ -87,5 +94,4 @@ struct SquareView: View {
             count: 8
         )
     )
-    .environment(\.layoutDirection, .rightToLeft)
 }

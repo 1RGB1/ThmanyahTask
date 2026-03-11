@@ -25,12 +25,13 @@ struct BigSquareSectionView: View {
 
 struct BigSquareView: View {
     let item: ContentItemDisplay
-    let imageSize: CGSize = CGSize(width: 250, height: 160)
+    let imageWidth: CGFloat = 250
+    let imageHeight: CGFloat = 160
     
     var body: some View {
         ZStack {
             AsyncImageView(url: item.imageUrl)
-                .frame(width: imageSize.width, height: imageSize.height)
+                .frame(width: imageWidth, height: imageHeight)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
             
             VStack(alignment: .leading, spacing: 4) {
@@ -43,16 +44,26 @@ struct BigSquareView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 if let duration = item.duration {
-                    Text(duration)
-                        .font(.thamanyahThin(10))
-                        .foregroundStyle(Color.white)
-                        .lineLimit(1)
+                    HStack(spacing: 4) {
+                        Image(systemName: "play.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 5, height: 5)
+                        
+                        Text(duration)
+                            .font(.thamanyahBold(8))
+                            .foregroundStyle(Color.white)
+                            .lineLimit(1)
+                    }
+                    .padding(5)
+                    .background(Color.gray)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
             }
             .frame(maxWidth: .infinity)
             .padding()
         }
-        .frame(width: imageSize.width, height: imageSize.height)
+        .frame(width: imageWidth, height: imageHeight)
         .background(Color.clear)
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
@@ -79,5 +90,4 @@ struct BigSquareView: View {
             count: 8
         )
     )
-    .environment(\.layoutDirection, .rightToLeft)
 }

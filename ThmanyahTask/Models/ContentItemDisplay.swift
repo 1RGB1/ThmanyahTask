@@ -13,6 +13,7 @@ struct ContentItemDisplay: Sendable {
     let subtitle: String?
     let imageUrl: URL?
     let duration: String?
+    let autherName: String?
     
     static func from(_ item: SectionContentItem) -> ContentItemDisplay {
         switch item {
@@ -21,7 +22,8 @@ struct ContentItemDisplay: Sendable {
                 title: podcast.name ?? "",
                 subtitle: podcast.description,
                 imageUrl: podcast.avatarUrl.flatMap { URL(string: $0) },
-                duration: DurationFormatter.format(second: podcast.duration)
+                duration: DurationFormatter.format(second: podcast.duration),
+                autherName: nil
             )
             
         case .episode(let episode):
@@ -29,7 +31,8 @@ struct ContentItemDisplay: Sendable {
                 title: episode.name ?? "",
                 subtitle: episode.podcastName,
                 imageUrl: episode.avatarUrl.flatMap { URL(string: $0) },
-                duration: DurationFormatter.format(second: episode.duration)
+                duration: DurationFormatter.format(second: episode.duration),
+                autherName: episode.authorName
             )
             
         case .audioBook(let audiobook):
@@ -37,7 +40,8 @@ struct ContentItemDisplay: Sendable {
                 title: audiobook.name ?? "",
                 subtitle: audiobook.authorName,
                 imageUrl: audiobook.avatarUrl.flatMap { URL(string: $0) },
-                duration: DurationFormatter.format(second: audiobook.duration)
+                duration: DurationFormatter.format(second: audiobook.duration),
+                autherName: audiobook.authorName
             )
             
         case .audioArticle(let audioArticle):
@@ -45,7 +49,8 @@ struct ContentItemDisplay: Sendable {
                 title: audioArticle.name ?? "",
                 subtitle: audioArticle.authorName,
                 imageUrl: audioArticle.avatarUrl.flatMap { URL(string: $0) },
-                duration: DurationFormatter.format(second: audioArticle.duration)
+                duration: DurationFormatter.format(second: audioArticle.duration),
+                autherName: audioArticle.authorName
             )
         }
     }
