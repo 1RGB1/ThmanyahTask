@@ -29,9 +29,7 @@ struct SquareView: View {
     
     var body: some View {
         VStack(spacing: 8) {
-            Image(.test)
-                .resizable()
-                .scaledToFill()
+            AsyncImageView(url: item.imageUrl)
                 .frame(width: imageSize, height: imageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
             
@@ -77,7 +75,7 @@ struct SquareView: View {
                         podcastId: "1",
                         name: "مذكرات محقق حوادث طيران",
                         description: "أمس",
-                        avatarUrl: "https://www.thestreaminglab.com/p/thmanyah-review-the-new-home-of-saudi",
+                        avatarUrl: "https://substackcdn.com/image/fetch/$s_!_DTC!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F24ed0475-37e1-4151-bc73-dfa2d882d260_2922x1558.png",
                         episodeCount: 1,
                         duration: 1350,
                         language: "ar",
