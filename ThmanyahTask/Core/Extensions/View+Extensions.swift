@@ -12,4 +12,8 @@ public extension View {
     func shimmer() -> some View {
         modifier(ShimmerModifier())
     }
+    
+    func dismissKeyboardOnTap() -> some View {
+        modifier(DismissKeyboardModifier())
+    }
 }

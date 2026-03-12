@@ -15,52 +15,59 @@ struct SearchView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                switch viewModel.loadingState {
-                case .idle:
-                    if viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        Text("Type to search")
-                            .font(.thamanyahRegular(32))
-                            .foregroundStyle(.secondary)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    } else {
-                        LoadingView()
-                    }
-                    
-                case .loading:
-                    LoadingView()
-                    
-                case .error(let message):
-                    ErrorView(
-                        message: message,
-                        retry: { viewModel.search() }
-                    )
-                    
-                case .loaded:
-                    if viewModel.sections.isEmpty {
-                        Text("No reasults")
-                            .font(.thamanyahRegular(15))
-                            .foregroundStyle(.secondary)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    } else {
-                        ScrollView(showsIndicators: false) {
-                            LazyVStack(alignment: .leading, spacing: 24) {
-                                ForEach(Array(viewModel.sections.enumerated()), id: \.offset) { _, section in
-                                    SectionView(section: section)
-                                }
-                            }
-                        }
-                    }
-                }
+                searchBar
+                content
             }
             .navigationTitle("Search")
+            .dismissKeyboardOnTap()
         }
-        .searchable(
-            text: $viewModel.searchText,
-            placement: .automatic,
-            prompt: "Type here to search ..."
-        )
-        .onChange(of: viewModel.searchText) { _, _ in
-            viewModel.search()
+    }
+    
+    private var searchBar: some View {
+        HStack {
+            Image(systemName: "magnifyingglass")
+                .foregroundStyle(.secondary)
+            
+            TextField("Type here to search ...", text: $viewModel.searchText)
+                .textFieldStyle(.plain)
+        }
+        .padding(10)
+        .background(Color(.systemGray6))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .padding()
+    }
+    
+    @ViewBuilder
+    private var content: some View {
+        switch viewModel.loadingState {
+        case .idle:
+            if viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                Text("Type to search")
+                    .font(.thamanyahRegular(28))
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                LoadingView()
+            }
+            
+        case .loading:
+            LoadingView()
+            
+        case .error(let message):
+            ErrorView(
+                message: message,
+                retry: { viewModel.retry() }
+            )
+            
+        case .loaded:
+            if viewModel.sections.isEmpty {
+                Text("No reasults")
+                    .font(.thamanyahRegular(28))
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                SearchResultsSwiftUIView(sections: viewModel.sections)
+            }
         }
     }
 }

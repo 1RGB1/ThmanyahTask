@@ -15,9 +15,9 @@ struct ContentView: View {
                 HomeView()
             }
             
-            Tab(role: .search) {
-                SearchView()
-//                SearchViewControllerRepresentable()
+            Tab("Search", systemImage: "magnifyingglass") {
+//                SearchView() // SwiftUI Solution
+                SearchViewControllerRepresentable() // UIKit Solution
             }
         }
     }
