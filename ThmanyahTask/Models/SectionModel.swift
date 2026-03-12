@@ -74,7 +74,7 @@ struct SectionModel: Decodable, Sendable {
         name = try? container.decode(String?.self, forKey: .name)
         typeRaw = try? container.decode(String?.self, forKey: .type)
         contentTypeRaw = try? container.decode(String?.self, forKey: .content_type)
-        order = try? container.decode(Int?.self, forKey: .order)
+        order = try! container.decode(Int.self, forKey: .order)
         
         contentPodcast = nil
         contentEpisode = nil
@@ -108,7 +108,7 @@ struct SectionModel: Decodable, Sendable {
         name: String? = nil,
         typeRaw: String? = nil,
         contentTypeRaw: String? = nil,
-        order: Int? = nil,
+        order: Int,
         contentPodcast: [PodcastContentModel]? = nil,
         contentEpisode: [EpisodeContentModel]? = nil,
         contentAudioBook: [AudioBookContentModel]? = nil,

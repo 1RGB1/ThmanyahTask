@@ -15,9 +15,9 @@ enum DurationFormatter {
         let minutes = (sec % 3600) / 60
         let seconds = sec % 60
         
-        if hours > 0 {
-            return String(format: "%dh %02dm %02ds", hours, minutes, seconds)
-        }
-        return String(format: "%02dm %02ds", minutes, seconds)
+        let hourString = hours > 0 ? "\(hours)h" : ""
+        let minuteString = minutes > 0 ? " \(minutes)m" : ""
+        let secondString = seconds > 0 ? " \(seconds)s" : ""
+        return hourString + minuteString + secondString
     }
 }

@@ -25,7 +25,7 @@ struct SquareSectionView: View {
 
 struct SquareView: View {
     let item: ContentItemDisplay
-    let imageSize: CGFloat = 100
+    let imageSize: CGFloat = 140
     
     var body: some View {
         VStack(spacing: 8) {
@@ -47,6 +47,7 @@ struct SquareView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 5, height: 5)
+                                .foregroundStyle(Color.orange)
                             
                             Text(duration)
                                 .font(.thamanyahBold(8))
@@ -68,6 +69,7 @@ struct SquareView: View {
             }
             .frame(maxWidth: .infinity)
         }
+        .frame(width: imageSize)
         .background(Color.clear)
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }

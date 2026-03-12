@@ -49,6 +49,7 @@ struct BigSquareView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 5, height: 5)
+                            .foregroundStyle(Color.orange)
                         
                         Text(duration)
                             .font(.thamanyahBold(8))

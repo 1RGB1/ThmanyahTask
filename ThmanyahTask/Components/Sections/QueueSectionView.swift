@@ -68,7 +68,7 @@ struct QueueView: View {
                         Text(subtitle)
                             .font(.thamanyahThin(10))
                             .foregroundStyle(Color.secondary)
-                            .lineLimit(1)
+                            .lineLimit(2)
                     }
                     
                     Spacer()
@@ -81,7 +81,7 @@ struct QueueView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 12, height: 12)
-                                .foregroundStyle(Color.white)
+                                .foregroundStyle(Color.orange)
                                 .padding(10)
                                 .background(Color.white.opacity(0.15))
                                 .clipShape(Circle())

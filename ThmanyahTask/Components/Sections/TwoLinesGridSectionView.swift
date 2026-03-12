@@ -11,31 +11,28 @@ import SwiftUI
 struct TwoLinesGridSectionView: View {
     let items: [SectionContentItem]
     private let rowsCount: Int = 2
+    private let itemHeight: CGFloat = 64
+    private let spacing: CGFloat = 16
+    private var totalHeight: CGFloat { (CGFloat(rowsCount) * itemHeight) + spacing }
     
     var body: some View {
         let rows = Array(repeating: GridItem(.flexible()), count: rowsCount)
-        GeometryReader { proxy in
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHGrid(rows: rows, alignment: .top, spacing: 16) {
-                    ForEach(Array(items.enumerated()), id: \.offset) {
-                        TwoLinesGridView(
-                            item: ContentItemDisplay.from($1),
-                            containerWidth: proxy.size.width
-                        )
-                    }
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHGrid(rows: rows, alignment: .top, spacing: spacing) {
+                ForEach(Array(items.enumerated()), id: \.offset) {
+                    TwoLinesGridView(item: ContentItemDisplay.from($1))
                 }
-                .padding(.horizontal)
             }
+            .padding(.horizontal)
         }
+        .frame(height: totalHeight)
     }
 }
 
 struct TwoLinesGridView: View {
     let item: ContentItemDisplay
-    let containerWidth: CGFloat
-    let imageSize: CGFloat = 60
-    var itemWidth: CGFloat { containerWidth * 0.85 }
-    
+    let imageSize: CGFloat = 64
+
     var body: some View {
         HStack(spacing: 8) {
             AsyncImageView(url: item.imageUrl)
@@ -57,24 +54,16 @@ struct TwoLinesGridView: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
-                if let subtitle = item.subtitle, !subtitle.isEmpty {
-                    Text(subtitle)
-                        .font(.thamanyahThin(10))
-                        .foregroundStyle(Color.secondary)
-                        .lineLimit(2)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
+                Spacer(minLength: 0)
                 
-                Spacer()
-                
-                HStack {
+                HStack(spacing: 8) {
                     if let duration = item.duration {
                         HStack(spacing: 4) {
                             Image(systemName: "play.fill")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 5, height: 5)
+                                .foregroundStyle(Color.orange)
                             
                             Text(duration)
                                 .font(.thamanyahBold(8))
@@ -86,25 +75,27 @@ struct TwoLinesGridView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
                     
-                    Spacer()
+                    Spacer(minLength: 0)
                     
                     Image(systemName: "ellipsis")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 12, height: 12)
+                        .foregroundStyle(Color.orange)
                     
                     Image(systemName: "text.line.first.and.arrowtriangle.forward")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 12, height: 12)
-                        .foregroundStyle(Color.black)
+                        .foregroundStyle(Color.orange)
                 }
             }
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: imageSize)
         }
         .background(Color.clear)
+        .frame(height: imageSize)
+        .containerRelativeFrame(.horizontal) { width, _ in width * 0.85 }
         .clipShape(RoundedRectangle(cornerRadius: 8))
-        .frame(width: itemWidth, height: imageSize)
     }
 }
 
@@ -129,5 +120,4 @@ struct TwoLinesGridView: View {
             count: 9
         )
     )
-    .frame(height: 136)
 }
