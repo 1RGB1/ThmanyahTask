@@ -14,4 +14,17 @@ struct PaginationModel: Codable, Sendable {
         case nextPage = "next_page"
         case totalPages = "total_pages"
     }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        nextPage = try container.decodeIfPresent(String.self, forKey: .nextPage)
+        
+        if let int = try? container.decode(Int.self, forKey: .totalPages) {
+            totalPages = int
+        } else if let string = try? container.decode(String.self, forKey: .totalPages), let int = Int(string) {
+            totalPages = int
+        } else {
+            totalPages = nil
+        }
+    }
 }

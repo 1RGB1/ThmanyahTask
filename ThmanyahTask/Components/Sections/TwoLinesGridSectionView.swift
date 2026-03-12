@@ -98,26 +98,3 @@ struct TwoLinesGridView: View {
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }
-
-#Preview {
-    TwoLinesGridSectionView(
-        items: Array(
-            repeating:
-                SectionContentItem.podcast(
-                    PodcastContentModel(
-                        podcastId: "1",
-                        name: "مذكرات محقق حوادث طيران",
-                        description: "أمس",
-                        avatarUrl: "https://substackcdn.com/image/fetch/$s_!_DTC!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F24ed0475-37e1-4151-bc73-dfa2d882d260_2922x1558.png",
-                        episodeCount: 1,
-                        duration: 1350,
-                        language: "ar",
-                        priority: 1,
-                        popularityScore: 150,
-                        score: 150
-                    )
-                ),
-            count: 9
-        )
-    )
-}

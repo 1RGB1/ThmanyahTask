@@ -52,9 +52,9 @@ enum SectionContentItem: Sendable {
 }
 
 struct SectionModel: Decodable, Sendable {
-    let name: String?
-    let typeRaw: String?
-    let contentTypeRaw: String?
+    let name: String
+    let typeRaw: String
+    let contentTypeRaw: String
     let order: Int
     var contentPodcast: [PodcastContentModel]?
     var contentEpisode: [EpisodeContentModel]?
@@ -71,17 +71,18 @@ struct SectionModel: Decodable, Sendable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try? container.decode(String?.self, forKey: .name)
-        typeRaw = try? container.decode(String?.self, forKey: .type)
-        contentTypeRaw = try? container.decode(String?.self, forKey: .content_type)
-        order = try! container.decode(Int.self, forKey: .order)
+        name = try container.decode(String.self, forKey: .name)
+        typeRaw = try container.decode(String.self, forKey: .type)
+        contentTypeRaw = try container.decode(String.self, forKey: .content_type)
+        let orderValue = try OrderValue(from: container.superDecoder(forKey: .order))
+        order = orderValue.intValue
         
         contentPodcast = nil
         contentEpisode = nil
         contentAudioBook = nil
         contentAudioArticle = nil
         
-        let contentType: ContentType = .from(apiValue: contentTypeRaw ?? "")
+        let contentType: ContentType = .from(apiValue: contentTypeRaw)
         switch contentType {
         case .podcast:
             contentPodcast = try? container.decode([PodcastContentModel].self, forKey: .content)
@@ -94,8 +95,23 @@ struct SectionModel: Decodable, Sendable {
         }
     }
     
-    var layoutType: SectionType { SectionType.from(apiValue: typeRaw ?? "") }
-    var contentType: ContentType { ContentType.from(apiValue: contentTypeRaw ?? "") }
+    private struct OrderValue: Codable {
+        let intValue: Int
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            if let int = try? container.decode(Int.self) {
+                intValue = int
+            } else if let string = try? container.decode(String.self), let int = Int(string) {
+                intValue = int
+            } else {
+                intValue = 0
+            }
+        }
+    }
+    
+    var layoutType: SectionType { SectionType.from(apiValue: typeRaw) }
+    var contentType: ContentType { ContentType.from(apiValue: contentTypeRaw) }
     var items: [SectionContentItem] {
         if let podcast = contentPodcast { return podcast.map { .podcast($0) } }
         if let episode = contentEpisode { return episode.map { .episode($0) } }
@@ -105,9 +121,9 @@ struct SectionModel: Decodable, Sendable {
     }
     
     init(
-        name: String? = nil,
-        typeRaw: String? = nil,
-        contentTypeRaw: String? = nil,
+        name: String,
+        typeRaw: String,
+        contentTypeRaw: String,
         order: Int,
         contentPodcast: [PodcastContentModel]? = nil,
         contentEpisode: [EpisodeContentModel]? = nil,
@@ -123,4 +139,8 @@ struct SectionModel: Decodable, Sendable {
         self.contentAudioBook = contentAudioBook
         self.contentAudioArticle = contentAudioArticle
     }
+}
+
+struct SearchResponse: Decodable, Sendable {
+    let sections: [SectionModel]
 }

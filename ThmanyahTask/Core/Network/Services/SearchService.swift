@@ -16,7 +16,7 @@ protocol SearchServiceProtocol: Sendable {
 final class SearchService: SearchServiceProtocol {
     private let client: APIClient
     
-    init(client: APIClient = APIClient()) {
+    nonisolated init(client: APIClient = APIClient()) {
         self.client = client
     }
     
@@ -26,8 +26,8 @@ final class SearchService: SearchServiceProtocol {
         guard !trimmed.isEmpty else { return [] }
         
         let url = Endpoints.search(query: trimmed)
-        let data: [SectionModel] = try await client.fetch(from: url)
-        let sortedSections = data.sorted { $0.order < $1.order }
+        let data: SearchResponse = try await client.fetch(from: url)
+        let sortedSections = data.sections.sorted { $0.order < $1.order }
         return sortedSections
     }
 }

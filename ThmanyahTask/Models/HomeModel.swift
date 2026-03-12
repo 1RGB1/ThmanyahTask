@@ -8,5 +8,5 @@
 
 struct HomeModel: Decodable, Sendable {
     let sections: [SectionModel]
-    let pagination: PaginationModel
+    let pagination: PaginationModel?
 }

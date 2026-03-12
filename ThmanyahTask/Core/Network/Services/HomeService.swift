@@ -15,7 +15,7 @@ protocol HomeServiceProtocol: Sendable {
 final class HomeService: HomeServiceProtocol {
     private let client: APIClient
     
-    init(client: APIClient = APIClient()) {
+    nonisolated init(client: APIClient = APIClient()) {
         self.client = client
     }
     
@@ -23,7 +23,7 @@ final class HomeService: HomeServiceProtocol {
         let url = Endpoints.homeSections(page: page == 1 ? nil : page)
         let data: HomeModel = try await client.fetch(from: url)
         let sortedSections = data.sections.sorted { $0.order < $1.order }
-        let nextPage = data.pagination.nextPage.flatMap { path in
+        let nextPage: Int? = data.pagination?.nextPage.flatMap { path in
             URLComponents(string: "https://dumy\(path)")?.queryItems?.first(where: { $0.name == "page" })?.value.flatMap(Int.init)
         }
         return (sortedSections, nextPage)

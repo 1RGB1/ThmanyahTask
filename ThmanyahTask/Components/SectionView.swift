@@ -13,7 +13,7 @@ struct SectionView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(section.name ?? "")
+            Text(section.name)
                 .font(.thamanyahBold(32))
                 .padding(.horizontal)
             

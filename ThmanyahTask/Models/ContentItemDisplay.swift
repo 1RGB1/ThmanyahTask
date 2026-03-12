@@ -19,7 +19,7 @@ struct ContentItemDisplay: Sendable {
         switch item {
         case .podcast(let podcast):
             return ContentItemDisplay(
-                title: podcast.name ?? "",
+                title: podcast.name,
                 subtitle: podcast.description,
                 imageUrl: podcast.avatarUrl.flatMap { URL(string: $0) },
                 duration: DurationFormatter.format(second: podcast.duration),
@@ -28,7 +28,7 @@ struct ContentItemDisplay: Sendable {
             
         case .episode(let episode):
             return ContentItemDisplay(
-                title: episode.name ?? "",
+                title: episode.name,
                 subtitle: episode.podcastName,
                 imageUrl: episode.avatarUrl.flatMap { URL(string: $0) },
                 duration: DurationFormatter.format(second: episode.duration),
@@ -37,7 +37,7 @@ struct ContentItemDisplay: Sendable {
             
         case .audioBook(let audiobook):
             return ContentItemDisplay(
-                title: audiobook.name ?? "",
+                title: audiobook.name,
                 subtitle: audiobook.authorName,
                 imageUrl: audiobook.avatarUrl.flatMap { URL(string: $0) },
                 duration: DurationFormatter.format(second: audiobook.duration),
@@ -46,7 +46,7 @@ struct ContentItemDisplay: Sendable {
             
         case .audioArticle(let audioArticle):
             return ContentItemDisplay(
-                title: audioArticle.name ?? "",
+                title: audioArticle.name,
                 subtitle: audioArticle.authorName,
                 imageUrl: audioArticle.avatarUrl.flatMap { URL(string: $0) },
                 duration: DurationFormatter.format(second: audioArticle.duration),
