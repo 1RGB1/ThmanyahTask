@@ -55,7 +55,7 @@ struct SectionModel: Decodable, Sendable {
     let name: String?
     let typeRaw: String?
     let contentTypeRaw: String?
-    let order: Int?
+    let order: Int
     var contentPodcast: [PodcastContentModel]?
     var contentEpisode: [EpisodeContentModel]?
     var contentAudioBook: [AudioBookContentModel]?
