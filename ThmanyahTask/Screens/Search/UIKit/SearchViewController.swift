@@ -124,13 +124,6 @@ final class SearchViewController: UIViewController {
                 self?.updateUI(for: state)
             }
             .store(in: &cancellables)
-        
-        viewModel.$sections
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.updateUI(for: self?.viewModel.loadingState ?? .idle)
-            }
-            .store(in: &cancellables)
     }
     
     private func updateUI(for state: SearchViewModel.SearchLoadingState) {
