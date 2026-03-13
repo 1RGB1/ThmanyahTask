@@ -7,7 +7,35 @@
 		<key>ThmanyahTask.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>ThmanyahTaskTests.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>ThmanyahTaskUITests.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>D24D55022F61D66A004D5B01</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D24D550F2F61D66B004D5B01</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D24D55192F61D66B004D5B01</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

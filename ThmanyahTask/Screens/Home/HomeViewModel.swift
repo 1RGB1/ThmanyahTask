@@ -6,6 +6,7 @@
 //  Copyright © 2026 Ahmad Ragab. All rights reserved.
 //
 
+import Foundation
 import Combine
 
 @MainActor
@@ -64,7 +65,7 @@ final class HomeViewModel: ObservableObject {
             currentPage = page
         } catch {
             if page == 1 {
-                loadingState = .error("Failed to load data")
+                loadingState = .error(error.localizedDescription)
             } else {
                 loadingState = .loaded
             }
