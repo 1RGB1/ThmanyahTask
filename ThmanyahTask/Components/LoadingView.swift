@@ -56,6 +56,7 @@ struct LoadingView: View {
             }
             .padding(.vertical, 16)
         }
+        .accessibilityIdentifier(AccessibilityIdentitiers.loadingIndicator)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

@@ -30,6 +30,7 @@ struct SearchView: View {
             
             TextField("Type here to search ...", text: $viewModel.searchText)
                 .textFieldStyle(.plain)
+                .accessibilityIdentifier(AccessibilityIdentitiers.SearchIdentifiers.textField)
         }
         .padding(10)
         .background(Color(.systemGray6))
@@ -48,16 +49,20 @@ struct SearchView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 LoadingView()
+                    .accessibilityIdentifier(AccessibilityIdentitiers.SearchIdentifiers.loadingView)
             }
             
         case .loading:
             LoadingView()
+                .accessibilityIdentifier(AccessibilityIdentitiers.SearchIdentifiers.loadingView)
             
         case .error(let message):
             ErrorView(
                 message: message,
-                retry: { viewModel.retry() }
+                retry: { viewModel.retry() },
+                retryAccessibilityIdentifier: AccessibilityIdentitiers.SearchIdentifiers.retryButton
             )
+            .accessibilityIdentifier(AccessibilityIdentitiers.SearchIdentifiers.errorView)
             
         case .loaded:
             if viewModel.sections.isEmpty {
@@ -65,6 +70,7 @@ struct SearchView: View {
                     .font(.thamanyahRegular(28))
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .accessibilityIdentifier(AccessibilityIdentitiers.SearchIdentifiers.noResults)
             } else {
                 SearchResultsSwiftUIView(sections: viewModel.sections)
             }

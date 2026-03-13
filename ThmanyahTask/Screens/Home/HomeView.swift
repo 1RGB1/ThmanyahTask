@@ -17,11 +17,17 @@ struct HomeView: View {
                 switch viewModel.loadingState {
                 case .idle, .loading:
                     LoadingView()
+                        .accessibilityIdentifier(AccessibilityIdentitiers.HomeIdentifiers.loadingView)
                     
                 case .error(let message):
-                    ErrorView(message: message) {
-                        Task { await viewModel.loadInitial() }
-                    }
+                    ErrorView(
+                        message: message,
+                        retry: {
+                            Task { await viewModel.loadInitial() }
+                        },
+                        retryAccessibilityIdentifier: AccessibilityIdentitiers.HomeIdentifiers.retryButton
+                    )
+                    .accessibilityIdentifier(AccessibilityIdentitiers.HomeIdentifiers.errorView)
                     
                 case .loaded, .loadingMore:
                     ScrollView(showsIndicators: false) {
@@ -38,12 +44,14 @@ struct HomeView: View {
                                 HStack {
                                     Spacer()
                                     ProgressView()
+                                        .accessibilityIdentifier(AccessibilityIdentitiers.HomeIdentifiers.loadingMoreIndicator)
                                     Spacer()
                                 }
                                 .padding()
                             }
                         }
                     }
+                    .accessibilityIdentifier(AccessibilityIdentitiers.HomeIdentifiers.scrollView)
                 }
             }
             .navigationTitle("Home")

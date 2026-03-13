@@ -29,9 +29,22 @@
 		D24D551A2F61D66B004D5B01 /* ThmanyahTaskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThmanyahTaskUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D24D573C2F6471DD004D5B01 /* Exceptions for "ThmanyahTask" folder in "ThmanyahTaskUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Core/Helpers/AccessibilityIdentitiers.swift,
+			);
+			target = D24D55192F61D66B004D5B01 /* ThmanyahTaskUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D24D55052F61D66A004D5B01 /* ThmanyahTask */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D24D573C2F6471DD004D5B01 /* Exceptions for "ThmanyahTask" folder in "ThmanyahTaskUITests" target */,
+			);
 			path = ThmanyahTask;
 			sourceTree = "<group>";
 		};
