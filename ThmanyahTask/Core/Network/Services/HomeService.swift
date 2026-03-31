@@ -20,20 +20,12 @@ final class HomeService: HomeServiceProtocol {
     }
     
     func fetchSections(page: Int) async throws -> (sections: [SectionModel], nextPage: Int?) {
-        let result = Endpoints.homeSections(page: page == 1 ? nil : page)
-        
-        switch result {
-        case .success(let url):
-            let data: HomeModel = try await client.fetch(from: url)
-            let sortedSections = data.sections.sorted { $0.order < $1.order }
-            let nextPage: Int? = data.pagination?.nextPage.flatMap { path in
-                URLComponents(string: "https://dumy\(path)")?.queryItems?.first(where: { $0.name == "page" })?.value.flatMap(Int.init)
-            }
-            return (sortedSections, nextPage)
-            
-        case .failure(let error):
-            throw error
+        let url = try Endpoints.homeSections(page: page == 1 ? nil : page).get()
+        let data: HomeModel = try await client.fetch(from: url)
+        let sortedSections = data.sections.sorted { $0.order < $1.order }
+        let nextPage: Int? = data.pagination?.nextPage.flatMap { path in
+            URLComponents(string: path)?.queryItems?.first(where: { $0.name == "page" })?.value.flatMap(Int.init)
         }
-        
+        return (sortedSections, nextPage)
     }
 }

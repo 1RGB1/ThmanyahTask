@@ -41,7 +41,7 @@ struct PodcastContentModel: Codable, Sendable {
         duration = try? container.decode(Int?.self, forKey: .duration) ?? (try? container.decode(String.self, forKey: .duration)).flatMap(Int.init)
         language = try? container.decode(String.self, forKey: .language)
         priority = try? container.decode(Int?.self, forKey: .priority) ?? (try? container.decode(String.self, forKey: .priority)).flatMap(Int.init)
-        popularityScore = try? container.decode(Int?.self, forKey: .popularityScore) ?? (try? container.decode(String.self, forKey: .duration)).flatMap(Int.init)
+        popularityScore = try? container.decode(Int?.self, forKey: .popularityScore) ?? (try? container.decode(String.self, forKey: .popularityScore)).flatMap(Int.init)
         score = try? container.decode(Double?.self, forKey: .score) ?? (try? container.decode(String.self, forKey: .score)).flatMap(Double.init)
     }
 }

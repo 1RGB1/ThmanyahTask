@@ -25,16 +25,9 @@ final class SearchService: SearchServiceProtocol {
         
         guard !trimmed.isEmpty else { return [] }
         
-        let result = Endpoints.search(query: trimmed)
-        
-        switch result {
-        case .success(let url):
-            let data: SearchResponse = try await client.fetch(from: url)
-            let sortedSections = data.sections.sorted { $0.order < $1.order }
-            return sortedSections
-            
-        case .failure(let error):
-            throw error
-        }
+        let url = try Endpoints.search(query: trimmed).get()
+        let data: SearchResponse = try await client.fetch(from: url)
+        let sortedSections = data.sections.sorted { $0.order < $1.order }
+        return sortedSections
     }
 }

@@ -18,6 +18,7 @@ enum DurationFormatter {
         let hourString = hours > 0 ? "\(hours)h" : ""
         let minuteString = minutes > 0 ? " \(minutes)m" : ""
         let secondString = seconds > 0 ? " \(seconds)s" : ""
-        return hourString + minuteString + secondString
+        let result = (hourString + minuteString + secondString).trimmingCharacters(in: .whitespaces)
+        return result.isEmpty ? "0s" : result
     }
 }

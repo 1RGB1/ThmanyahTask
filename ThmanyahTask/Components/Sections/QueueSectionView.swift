@@ -11,9 +11,10 @@ import SwiftUI
 
 struct QueueSectionView: View {
     let items: [SectionContentItem]
-    
+    var onPlayTapped: ((ContentItemDisplay) -> Void)?
+
     var body: some View {
-        QueueView(items: items.map { ContentItemDisplay.from($0) } )
+        QueueView(items: items.map { ContentItemDisplay.from($0) }, onPlayTapped: onPlayTapped)
             .padding(.horizontal)
     }
 }
@@ -21,6 +22,7 @@ struct QueueSectionView: View {
 struct QueueView: View {
     @Environment(\.layoutDirection) private var layoutDirection
     let items: [ContentItemDisplay]
+    var onPlayTapped: ((ContentItemDisplay) -> Void)?
     let imageSize: CGFloat = 150
     @State private var currentIndex: Int = 0
     private var currentItem: ContentItemDisplay? {
@@ -76,7 +78,7 @@ struct QueueView: View {
                     HStack {
                         Spacer()
                         
-                        Button(action: {}) {
+                        Button(action: { onPlayTapped?(currentItem) }) {
                             Image(systemName: "play.fill")
                                 .resizable()
                                 .scaledToFit()

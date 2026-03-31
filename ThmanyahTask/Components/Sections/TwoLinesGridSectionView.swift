@@ -40,8 +40,8 @@ struct TwoLinesGridView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8))
             
             VStack(alignment: .leading, spacing: 4) {
-                if let autherName = item.autherName, !autherName.isEmpty {
-                    Text(autherName)
+                if let authorName = item.authorName, !authorName.isEmpty {
+                    Text(authorName)
                         .font(.thamanyahThin(10))
                         .foregroundStyle(Color.secondary)
                         .lineLimit(1)

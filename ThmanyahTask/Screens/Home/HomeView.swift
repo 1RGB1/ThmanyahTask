@@ -10,6 +10,7 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
+    @State private var currentSectionIndex = 0
     
     var body: some View {
         NavigationStack {
@@ -29,13 +30,15 @@ struct HomeView: View {
                     )
                     .accessibilityIdentifier(AccessibilityIdentifiers.HomeIdentifiers.errorView)
                     
-                case .loaded, .loadingMore, .loadingEnded:
+                case .loaded, .loadingMore, .tryAgain:
                     ScrollView(showsIndicators: false) {
                         LazyVStack(alignment: .leading, spacing: 24) {
                             ForEach(Array(viewModel.sections.enumerated()), id: \.offset) { index, section in
                                 SectionView(section: section)
                                     .onAppear {
-                                        Task { await viewModel.loadNextPageIfNeeded(currentSectionIndex: index)
+                                        Task {
+                                            currentSectionIndex = index
+                                            await viewModel.loadNextPageIfNeeded(currentSectionIndex: index)
                                         }
                                     }
                             }
@@ -50,12 +53,17 @@ struct HomeView: View {
                                 .padding()
                             }
                             
-                            if case .loadingEnded = viewModel.loadingState {
+                            if case .tryAgain = viewModel.loadingState {
                                 HStack {
                                     Spacer()
-                                    Text("No more content")
+                                    Text("Try Again")
                                         .font(.thamanyahRegular(12))
                                         .foregroundStyle(.secondary)
+                                        .onTapGesture {
+                                            Task {
+                                                await viewModel.loadNextPageIfNeeded(currentSectionIndex: currentSectionIndex)
+                                            }
+                                        }
                                     Spacer()
                                 }
                                 .padding()

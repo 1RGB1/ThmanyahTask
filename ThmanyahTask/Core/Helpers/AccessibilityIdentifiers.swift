@@ -32,7 +32,7 @@ public enum AccessibilityIdentifiers {
         public static let retryButton = "search_retry_button"
     }
     
-    // MARK: - Section (perfix + section name)
+    // MARK: - Section (prefix + section name)
     public static func sectionTitle(_ name: String) -> String {
         "section_title_\(name.replacingOccurrences(of: " ", with: "_"))"
     }
