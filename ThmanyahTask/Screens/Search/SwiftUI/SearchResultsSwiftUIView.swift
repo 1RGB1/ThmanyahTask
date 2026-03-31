@@ -19,7 +19,7 @@ struct SearchResultsSwiftUIView: View {
                 }
             }
         }
-        .accessibilityIdentifier(AccessibilityIdentitiers.SearchIdentifiers.resultsScrollView)
+        .accessibilityIdentifier(AccessibilityIdentifiers.SearchIdentifiers.resultsScrollView)
         .dismissKeyboardOnTap()
     }
 }

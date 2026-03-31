@@ -30,7 +30,7 @@ struct SearchView: View {
             
             TextField("Type here to search ...", text: $viewModel.searchText)
                 .textFieldStyle(.plain)
-                .accessibilityIdentifier(AccessibilityIdentitiers.SearchIdentifiers.textField)
+                .accessibilityIdentifier(AccessibilityIdentifiers.SearchIdentifiers.textField)
         }
         .padding(10)
         .background(Color(.systemGray6))
@@ -49,28 +49,28 @@ struct SearchView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 LoadingView()
-                    .accessibilityIdentifier(AccessibilityIdentitiers.SearchIdentifiers.loadingView)
+                    .accessibilityIdentifier(AccessibilityIdentifiers.SearchIdentifiers.loadingView)
             }
             
         case .loading:
             LoadingView()
-                .accessibilityIdentifier(AccessibilityIdentitiers.SearchIdentifiers.loadingView)
+                .accessibilityIdentifier(AccessibilityIdentifiers.SearchIdentifiers.loadingView)
             
         case .error(let message):
             ErrorView(
                 message: message,
                 retry: { viewModel.retry() },
-                retryAccessibilityIdentifier: AccessibilityIdentitiers.SearchIdentifiers.retryButton
+                retryAccessibilityIdentifier: AccessibilityIdentifiers.SearchIdentifiers.retryButton
             )
-            .accessibilityIdentifier(AccessibilityIdentitiers.SearchIdentifiers.errorView)
+            .accessibilityIdentifier(AccessibilityIdentifiers.SearchIdentifiers.errorView)
             
         case .loaded:
             if viewModel.sections.isEmpty {
-                Text("No reasults")
+                Text("No results")
                     .font(.thamanyahRegular(28))
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .accessibilityIdentifier(AccessibilityIdentitiers.SearchIdentifiers.noResults)
+                    .accessibilityIdentifier(AccessibilityIdentifiers.SearchIdentifiers.noResults)
             } else {
                 SearchResultsSwiftUIView(sections: viewModel.sections)
             }

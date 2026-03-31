@@ -35,7 +35,7 @@ struct ErrorView: View {
                 .lineLimit(nil)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
-                .accessibilityIdentifier(AccessibilityIdentitiers.errorMessage)
+                .accessibilityIdentifier(AccessibilityIdentifiers.errorMessage)
             
             if let retry = retry {
                 Button(action: retry) {

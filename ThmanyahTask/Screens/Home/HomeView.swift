@@ -17,7 +17,7 @@ struct HomeView: View {
                 switch viewModel.loadingState {
                 case .idle, .loading:
                     LoadingView()
-                        .accessibilityIdentifier(AccessibilityIdentitiers.HomeIdentifiers.loadingView)
+                        .accessibilityIdentifier(AccessibilityIdentifiers.HomeIdentifiers.loadingView)
                     
                 case .error(let message):
                     ErrorView(
@@ -25,11 +25,11 @@ struct HomeView: View {
                         retry: {
                             Task { await viewModel.loadInitial() }
                         },
-                        retryAccessibilityIdentifier: AccessibilityIdentitiers.HomeIdentifiers.retryButton
+                        retryAccessibilityIdentifier: AccessibilityIdentifiers.HomeIdentifiers.retryButton
                     )
-                    .accessibilityIdentifier(AccessibilityIdentitiers.HomeIdentifiers.errorView)
+                    .accessibilityIdentifier(AccessibilityIdentifiers.HomeIdentifiers.errorView)
                     
-                case .loaded, .loadingMore:
+                case .loaded, .loadingMore, .loadingEnded:
                     ScrollView(showsIndicators: false) {
                         LazyVStack(alignment: .leading, spacing: 24) {
                             ForEach(Array(viewModel.sections.enumerated()), id: \.offset) { index, section in
@@ -44,14 +44,25 @@ struct HomeView: View {
                                 HStack {
                                     Spacer()
                                     ProgressView()
-                                        .accessibilityIdentifier(AccessibilityIdentitiers.HomeIdentifiers.loadingMoreIndicator)
+                                        .accessibilityIdentifier(AccessibilityIdentifiers.HomeIdentifiers.loadingMoreIndicator)
+                                    Spacer()
+                                }
+                                .padding()
+                            }
+                            
+                            if case .loadingEnded = viewModel.loadingState {
+                                HStack {
+                                    Spacer()
+                                    Text("No more content")
+                                        .font(.thamanyahRegular(12))
+                                        .foregroundStyle(.secondary)
                                     Spacer()
                                 }
                                 .padding()
                             }
                         }
                     }
-                    .accessibilityIdentifier(AccessibilityIdentitiers.HomeIdentifiers.scrollView)
+                    .accessibilityIdentifier(AccessibilityIdentifiers.HomeIdentifiers.scrollView)
                 }
             }
             .navigationTitle("Home")

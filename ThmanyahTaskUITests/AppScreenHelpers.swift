@@ -10,59 +10,59 @@ import XCTest
 
 enum AppScreenHelpers {
     static func searchTab(in app: XCUIApplication) -> XCUIElement {
-        app.tabBars.buttons[AccessibilityIdentitiers.SearchIdentifiers.tap]
+        app.tabBars.buttons[AccessibilityIdentifiers.SearchIdentifiers.tap]
     }
     
     static func homeTab(in app: XCUIApplication) -> XCUIElement {
-        app.tabBars.buttons[AccessibilityIdentitiers.HomeIdentifiers.tap]
+        app.tabBars.buttons[AccessibilityIdentifiers.HomeIdentifiers.tap]
     }
     
     static func homeScrollView(in app: XCUIApplication) -> XCUIElement {
-        app.scrollViews[AccessibilityIdentitiers.HomeIdentifiers.scrollView]
+        app.scrollViews[AccessibilityIdentifiers.HomeIdentifiers.scrollView]
     }
     
     static func homeLoadingView(in app: XCUIApplication) -> XCUIElement {
-        app.otherElements[AccessibilityIdentitiers.HomeIdentifiers.loadingView]
+        app.otherElements[AccessibilityIdentifiers.HomeIdentifiers.loadingView]
     }
     
     static func homeErrorView(in app: XCUIApplication) -> XCUIElement {
-        app.otherElements[AccessibilityIdentitiers.HomeIdentifiers.errorView]
+        app.otherElements[AccessibilityIdentifiers.HomeIdentifiers.errorView]
     }
     
     static func homeRetryButton(in app: XCUIApplication) -> XCUIElement {
-        app.buttons[AccessibilityIdentitiers.HomeIdentifiers.retryButton]
+        app.buttons[AccessibilityIdentifiers.HomeIdentifiers.retryButton]
     }
     
     static func homeLoadingMoreIndicator(in app: XCUIApplication) -> XCUIElement {
-        app.activityIndicators[AccessibilityIdentitiers.HomeIdentifiers.loadingMoreIndicator]
+        app.activityIndicators[AccessibilityIdentifiers.HomeIdentifiers.loadingMoreIndicator]
     }
     
     static func searchTextField(in app: XCUIApplication) -> XCUIElement {
-        app.searchFields[AccessibilityIdentitiers.SearchIdentifiers.textField]
+        app.searchFields[AccessibilityIdentifiers.SearchIdentifiers.textField]
     }
     
     static func searchBar(in app: XCUIApplication) -> XCUIElement {
-        app.otherElements[AccessibilityIdentitiers.SearchIdentifiers.searchBar]
+        app.otherElements[AccessibilityIdentifiers.SearchIdentifiers.searchBar]
     }
     
     static func searchEmptyPrompt(in app: XCUIApplication) -> XCUIElement {
-        app.staticTexts[AccessibilityIdentitiers.SearchIdentifiers.emptyPrompt]
+        app.staticTexts[AccessibilityIdentifiers.SearchIdentifiers.emptyPrompt]
     }
     
     static func searchResultsScrollView(in app: XCUIApplication) -> XCUIElement {
-        app.scrollViews[AccessibilityIdentitiers.SearchIdentifiers.resultsScrollView]
+        app.scrollViews[AccessibilityIdentifiers.SearchIdentifiers.resultsScrollView]
     }
     
     static func searchNoResults(in app: XCUIApplication) -> XCUIElement {
-        app.staticTexts[AccessibilityIdentitiers.SearchIdentifiers.noResults]
+        app.staticTexts[AccessibilityIdentifiers.SearchIdentifiers.noResults]
     }
     
     static func searchLoadingView(in app: XCUIApplication) -> XCUIElement {
-        app.otherElements[AccessibilityIdentitiers.SearchIdentifiers.loadingView]
+        app.otherElements[AccessibilityIdentifiers.SearchIdentifiers.loadingView]
     }
     
     static func sectionTitle(in app: XCUIApplication, name: String) -> XCUIElement {
-        let id = AccessibilityIdentitiers.sectionTitle(name)
+        let id = AccessibilityIdentifiers.sectionTitle(name)
         return app.staticTexts[id]
     }
     

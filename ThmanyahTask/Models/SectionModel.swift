@@ -56,10 +56,10 @@ struct SectionModel: Decodable, Sendable {
     let typeRaw: String
     let contentTypeRaw: String
     let order: Int
-    var contentPodcast: [PodcastContentModel]?
-    var contentEpisode: [EpisodeContentModel]?
-    var contentAudioBook: [AudioBookContentModel]?
-    var contentAudioArticle: [AudioArticleContentModel]?
+    let contentPodcast: [PodcastContentModel]?
+    let contentEpisode: [EpisodeContentModel]?
+    let contentAudioBook: [AudioBookContentModel]?
+    let contentAudioArticle: [AudioArticleContentModel]?
     
     enum CodingKeys: String, CodingKey {
         case name
@@ -77,20 +77,27 @@ struct SectionModel: Decodable, Sendable {
         let orderValue = try OrderValue(from: container.superDecoder(forKey: .order))
         order = orderValue.intValue
         
-        contentPodcast = nil
-        contentEpisode = nil
-        contentAudioBook = nil
-        contentAudioArticle = nil
-        
         let contentType: ContentType = .from(apiValue: contentTypeRaw)
         switch contentType {
         case .podcast:
             contentPodcast = try? container.decode([PodcastContentModel].self, forKey: .content)
+            contentEpisode = nil
+            contentAudioBook = nil
+            contentAudioArticle = nil
         case .episode:
+            contentPodcast = nil
             contentEpisode = try? container.decode([EpisodeContentModel].self, forKey: .content)
+            contentAudioBook = nil
+            contentAudioArticle = nil
         case .audioBook:
+            contentPodcast = nil
+            contentEpisode = nil
             contentAudioBook = try? container.decode([AudioBookContentModel].self, forKey: .content)
+            contentAudioArticle = nil
         case .audioArticle:
+            contentPodcast = nil
+            contentEpisode = nil
+            contentAudioBook = nil
             contentAudioArticle = try? container.decode([AudioArticleContentModel].self, forKey: .content)
         }
     }

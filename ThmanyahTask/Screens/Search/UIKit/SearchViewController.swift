@@ -20,8 +20,8 @@ final class SearchViewController: UIViewController {
         search.searchBar.placeholder = "Type here to search ..."
         search.searchBar.delegate = self
         search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.accessibilityIdentifier = AccessibilityIdentitiers.SearchIdentifiers.textField
-        search.searchBar.searchTextField.accessibilityIdentifier = AccessibilityIdentitiers.SearchIdentifiers.textField
+        search.searchBar.accessibilityIdentifier = AccessibilityIdentifiers.SearchIdentifiers.textField
+        search.searchBar.searchTextField.accessibilityIdentifier = AccessibilityIdentifiers.SearchIdentifiers.textField
         return search
     }()
     
@@ -37,7 +37,7 @@ final class SearchViewController: UIViewController {
         label.text = "Type to search ..."
         label.textColor = .secondaryLabel
         label.font = .thamanyahRegular(28)
-        label.accessibilityIdentifier = AccessibilityIdentitiers.SearchIdentifiers.emptyPrompt
+        label.accessibilityIdentifier = AccessibilityIdentifiers.SearchIdentifiers.emptyPrompt
         return label
     }()
     
@@ -55,7 +55,7 @@ final class SearchViewController: UIViewController {
         label.textAlignment = .center
         label.textColor = .secondaryLabel
         label.font = .thamanyahRegular(28)
-        label.accessibilityIdentifier = AccessibilityIdentitiers.errorMessage
+        label.accessibilityIdentifier = AccessibilityIdentifiers.errorMessage
         return label
     }()
     
@@ -64,7 +64,7 @@ final class SearchViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Retry", for: .normal)
         button.addTarget(self, action: #selector(retryTapped), for: .touchUpInside)
-        button.accessibilityIdentifier = AccessibilityIdentitiers.SearchIdentifiers.retryButton
+        button.accessibilityIdentifier = AccessibilityIdentifiers.SearchIdentifiers.retryButton
         return button
     }()
     
@@ -74,7 +74,7 @@ final class SearchViewController: UIViewController {
         label.text = "No results"
         label.textColor = .secondaryLabel
         label.font = .thamanyahRegular(28)
-        label.accessibilityIdentifier = AccessibilityIdentitiers.SearchIdentifiers.noResults
+        label.accessibilityIdentifier = AccessibilityIdentifiers.SearchIdentifiers.noResults
         return label
     }()
     

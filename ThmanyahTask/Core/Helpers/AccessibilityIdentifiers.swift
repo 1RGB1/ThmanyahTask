@@ -1,5 +1,5 @@
 // 
-//  AccessibilityIdentitiers.swift
+//  AccessibilityIdentifiers.swift
 //  ThmanyahTask
 //
 //  Created by Ahmad Ragab on 13/03/2026.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum AccessibilityIdentitiers {
+public enum AccessibilityIdentifiers {
     // MARK: - Home
     public enum HomeIdentifiers {
         public static let tap = "Home"

@@ -22,6 +22,7 @@ enum AppFont {
         .medium: "IBMPlexSansArabic-Medium",
         .semibold: "IBMPlexSansArabic-SemiBold",
         .bold: "IBMPlexSansArabic-Bold",
+        .text: "IBMPlexSansArabic-Text"
     ]
     
     static func font(weight: Weight, size: CGFloat) -> Font {

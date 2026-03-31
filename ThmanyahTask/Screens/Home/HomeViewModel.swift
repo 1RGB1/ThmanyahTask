@@ -21,6 +21,7 @@ final class HomeViewModel: ObservableObject {
         case loaded
         case loadingMore
         case error(String)
+        case loadingEnded
     }
     
     private let service: HomeServiceProtocol
@@ -52,22 +53,23 @@ final class HomeViewModel: ObservableObject {
     }
     
     private func fetchPage(_ page: Int) async {
-        do {
-            let (newSections, next) = try await service.fetchSections(page: page)
-            if page == 1 {
-                sections = newSections
+        if loadingState != .loadingEnded {
+            do {
+                let (newSections, next) = try await service.fetchSections(page: page)
+                if page == 1 {
+                    sections = newSections
+                } else {
+                    sections.append(contentsOf: newSections)
+                }
                 loadingState = .loaded
-            } else {
-                sections.append(contentsOf: newSections)
-                loadingState = .loaded
-            }
-            nextPage = next
-            currentPage = page
-        } catch {
-            if page == 1 {
-                loadingState = .error(error.localizedDescription)
-            } else {
-                loadingState = .loaded
+                nextPage = next
+                currentPage = page
+            } catch {
+                if page == 1 {
+                    loadingState = .error(error.localizedDescription)
+                } else {
+                    loadingState = .loadingEnded
+                }
             }
         }
     }

@@ -12,17 +12,30 @@ enum Endpoints {
     static let baseHome = "https://api-v2-b2sit6oh3a-uc.a.run.app"
     static let baseSearch = "https://mock.apidog.com/m1/735111-711675-default"
     
-    static func homeSections(page: Int? = nil) -> URL {
+    static func homeSections(page: Int? = nil) -> Result<URL, Error> {
         var urlString = "\(baseHome)/home_sections"
         if let page, page > 1 {
             urlString += "?page=\(page)"
         }
-        return URL(string: urlString)!
+        
+        guard let url = URL(string: urlString) else {
+            return .failure(URLError(.badURL))
+        }
+        
+        return .success(url)
     }
     
-    static func search(query: String) -> URL {
-        var components = URLComponents(string: "\(baseSearch)/search")!
+    static func search(query: String) -> Result<URL, Error> {
+        guard var components = URLComponents(string: "\(baseSearch)/search") else {
+            return .failure(URLError(.badURL))
+        }
+        
         components.queryItems = [URLQueryItem(name: "q", value: query)]
-        return components.url!
+        
+        guard let url = components.url else {
+            return .failure(URLError(.badURL))
+        }
+        
+        return .success(url)
     }
 }

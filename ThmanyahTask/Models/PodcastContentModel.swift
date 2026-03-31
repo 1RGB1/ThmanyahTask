@@ -37,11 +37,11 @@ struct PodcastContentModel: Codable, Sendable {
         name = try container.decode(String.self, forKey: .name)
         description = try? container.decode(String.self, forKey: .description)
         avatarUrl = try? container.decode(String.self, forKey: .avatarUrl)
-        episodeCount = try? container.decode(Int?.self, forKey: .episodeCount) ?? (try? container.decode(String.self, forKey: .duration)).flatMap(Int.init)
+        episodeCount = try? container.decode(Int?.self, forKey: .episodeCount) ?? (try? container.decode(String.self, forKey: .episodeCount)).flatMap(Int.init)
         duration = try? container.decode(Int?.self, forKey: .duration) ?? (try? container.decode(String.self, forKey: .duration)).flatMap(Int.init)
         language = try? container.decode(String.self, forKey: .language)
-        priority = try? container.decode(Int?.self, forKey: .priority) ?? (try? container.decode(String.self, forKey: .duration)).flatMap(Int.init)
+        priority = try? container.decode(Int?.self, forKey: .priority) ?? (try? container.decode(String.self, forKey: .priority)).flatMap(Int.init)
         popularityScore = try? container.decode(Int?.self, forKey: .popularityScore) ?? (try? container.decode(String.self, forKey: .duration)).flatMap(Int.init)
-        score = try? container.decode(Double?.self, forKey: .score) ?? (try? container.decode(String.self, forKey: .duration)).flatMap(Double.init)
+        score = try? container.decode(Double?.self, forKey: .score) ?? (try? container.decode(String.self, forKey: .score)).flatMap(Double.init)
     }
 }

@@ -16,8 +16,7 @@ struct ContentView: View {
             }
             
             Tab("Search", systemImage: "magnifyingglass") {
-//                SearchView() // SwiftUI Solution
-                SearchViewControllerRepresentable() // UIKit Solution
+                SearchViewControllerRepresentable()
             }
         }
     }

@@ -100,7 +100,7 @@ struct QueueView: View {
     }
     
     private func handleSwipe(_ value: DragGesture.Value) {
-        let isRTL = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft
+        let isRTL = layoutDirection == .rightToLeft
         let threshold: CGFloat = 20
         
         if value.translation.width < -threshold {

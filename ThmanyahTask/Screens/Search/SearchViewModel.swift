@@ -25,7 +25,7 @@ final class SearchViewModel: ObservableObject {
     private let service: SearchServiceProtocol
     private var searchTask: Task<Void, Never>?
     private var cancellables = Set<AnyCancellable>()
-    private var debounceMS = 200
+    private let debounceMS = 200
     
     init(service: SearchServiceProtocol = SearchService()) {
         self.service = service

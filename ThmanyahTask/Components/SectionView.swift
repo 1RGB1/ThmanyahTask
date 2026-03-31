@@ -16,7 +16,7 @@ struct SectionView: View {
             Text(section.name)
                 .font(.thamanyahBold(32))
                 .padding(.horizontal)
-                .accessibilityIdentifier(AccessibilityIdentitiers.sectionTitle(section.name))
+                .accessibilityIdentifier(AccessibilityIdentifiers.sectionTitle(section.name))
             
             switch section.layoutType {
             case .square:
