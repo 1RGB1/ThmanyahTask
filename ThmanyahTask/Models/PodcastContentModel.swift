@@ -1,4 +1,4 @@
-// 
+//
 //  PodcastContentModel.swift
 //  ThmanyahTask
 //
@@ -17,7 +17,7 @@ struct PodcastContentModel: Codable, Sendable {
     let priority: Int?
     let popularityScore: Int?
     let score: Double?
-    
+
     enum CodingKeys: String, CodingKey {
         case podcastId = "podcast_id"
         case name
@@ -30,18 +30,42 @@ struct PodcastContentModel: Codable, Sendable {
         case popularityScore
         case score
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         podcastId = try container.decode(String.self, forKey: .podcastId)
         name = try container.decode(String.self, forKey: .name)
         description = try? container.decode(String.self, forKey: .description)
         avatarUrl = try? container.decode(String.self, forKey: .avatarUrl)
-        episodeCount = try? container.decode(Int?.self, forKey: .episodeCount) ?? (try? container.decode(String.self, forKey: .episodeCount)).flatMap(Int.init)
-        duration = try? container.decode(Int?.self, forKey: .duration) ?? (try? container.decode(String.self, forKey: .duration)).flatMap(Int.init)
+        episodeCount = FlexibleDecode.int(from: container, forKey: .episodeCount)
+        duration = FlexibleDecode.int(from: container, forKey: .duration)
         language = try? container.decode(String.self, forKey: .language)
-        priority = try? container.decode(Int?.self, forKey: .priority) ?? (try? container.decode(String.self, forKey: .priority)).flatMap(Int.init)
-        popularityScore = try? container.decode(Int?.self, forKey: .popularityScore) ?? (try? container.decode(String.self, forKey: .popularityScore)).flatMap(Int.init)
-        score = try? container.decode(Double?.self, forKey: .score) ?? (try? container.decode(String.self, forKey: .score)).flatMap(Double.init)
+        priority = FlexibleDecode.int(from: container, forKey: .priority)
+        popularityScore = FlexibleDecode.int(from: container, forKey: .popularityScore)
+        score = FlexibleDecode.double(from: container, forKey: .score)
+    }
+
+    init(
+        podcastId: String,
+        name: String,
+        description: String? = nil,
+        avatarUrl: String? = nil,
+        episodeCount: Int? = nil,
+        duration: Int? = nil,
+        language: String? = nil,
+        priority: Int? = nil,
+        popularityScore: Int? = nil,
+        score: Double? = nil
+    ) {
+        self.podcastId = podcastId
+        self.name = name
+        self.description = description
+        self.avatarUrl = avatarUrl
+        self.episodeCount = episodeCount
+        self.duration = duration
+        self.language = language
+        self.priority = priority
+        self.popularityScore = popularityScore
+        self.score = score
     }
 }

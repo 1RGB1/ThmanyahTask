@@ -33,12 +33,12 @@ struct QueueView: View {
     var body: some View {
         HStack(spacing: 0) {
             ZStack {
-                ForEach(Array(items.enumerated().reversed()), id: \.offset) { index, item in
+                ForEach(Array(visibleItems.reversed()), id: \.offset) { index, item in
                     let offset = stackXOffset(for: index)
                     let scale = scaleEffect(for: index)
                     let zIndex = zIndex(for: index)
                     let opacity = opacity(for: index)
-                    
+
                     AsyncImageView(url: item.imageUrl)
                         .frame(width: imageSize, height: imageSize)
                         .clipShape(RoundedRectangle(cornerRadius: 8))
@@ -101,6 +101,13 @@ struct QueueView: View {
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
     
+    private var visibleItems: [(offset: Int, element: ContentItemDisplay)] {
+        let lower = max(0, currentIndex - 2)
+        let upper = min(items.count - 1, currentIndex + 2)
+        guard lower <= upper else { return [] }
+        return (lower...upper).map { (offset: $0, element: items[$0]) }
+    }
+
     private func handleSwipe(_ value: DragGesture.Value) {
         let isRTL = layoutDirection == .rightToLeft
         let threshold: CGFloat = 20

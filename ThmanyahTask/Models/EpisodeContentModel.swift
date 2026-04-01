@@ -1,4 +1,4 @@
-// 
+//
 //  EpisodeContentModel.swift
 //  ThmanyahTask
 //
@@ -17,7 +17,7 @@ struct EpisodeContentModel: Codable, Sendable {
     let audioUrl: String?
     let releaseDate: String?
     let podcastId: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case episodeId = "episode_id"
         case name
@@ -30,7 +30,7 @@ struct EpisodeContentModel: Codable, Sendable {
         case releaseDate = "release_date"
         case podcastId = "podcast_id"
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         episodeId = try container.decode(String.self, forKey: .episodeId)
@@ -38,10 +38,34 @@ struct EpisodeContentModel: Codable, Sendable {
         podcastName = try? container.decode(String.self, forKey: .podcastName)
         authorName = try? container.decode(String.self, forKey: .authorName)
         description = try? container.decode(String.self, forKey: .description)
-        duration = try? container.decode(Int?.self, forKey: .duration) ?? (try? container.decode(String.self, forKey: .duration)).flatMap(Int.init)
+        duration = FlexibleDecode.int(from: container, forKey: .duration)
         avatarUrl = try? container.decode(String.self, forKey: .avatarUrl)
         audioUrl = try? container.decode(String.self, forKey: .audioUrl)
         releaseDate = try? container.decode(String.self, forKey: .releaseDate)
-        podcastId = try container.decode(String.self, forKey: .podcastId)
+        podcastId = try? container.decode(String.self, forKey: .podcastId)
+    }
+
+    init(
+        episodeId: String,
+        name: String,
+        podcastName: String? = nil,
+        authorName: String? = nil,
+        description: String? = nil,
+        duration: Int? = nil,
+        avatarUrl: String? = nil,
+        audioUrl: String? = nil,
+        releaseDate: String? = nil,
+        podcastId: String? = nil
+    ) {
+        self.episodeId = episodeId
+        self.name = name
+        self.podcastName = podcastName
+        self.authorName = authorName
+        self.description = description
+        self.duration = duration
+        self.avatarUrl = avatarUrl
+        self.audioUrl = audioUrl
+        self.releaseDate = releaseDate
+        self.podcastId = podcastId
     }
 }

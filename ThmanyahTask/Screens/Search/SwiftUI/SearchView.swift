@@ -74,6 +74,9 @@ struct SearchView: View {
             } else {
                 SearchResultsSwiftUIView(sections: viewModel.sections)
             }
+
+        case .loadingMore, .tryAgain:
+            EmptyView()
         }
     }
 }

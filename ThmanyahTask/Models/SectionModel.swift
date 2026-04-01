@@ -1,4 +1,4 @@
-// 
+//
 //  SectionType.swift
 //  ThmanyahTask
 //
@@ -7,13 +7,14 @@
 //
 
 import Foundation
+import os
 
 enum SectionType: String, Codable, Sendable {
     case square
     case twoLinesGrid = "2_lines_grid"
     case bigSquare = "big_square"
     case queue
-    
+
     static func from(apiValue: String) -> SectionType {
         let normalized = apiValue.replacingOccurrences(of: " ", with: "_").lowercased()
         switch normalized {
@@ -21,7 +22,9 @@ enum SectionType: String, Codable, Sendable {
         case "2_lines_grid": return .twoLinesGrid
         case "big_square": return .bigSquare
         case "queue": return .queue
-        default: return .square
+        default:
+            logger.warning("Unknown section type: \(apiValue), falling back to .square")
+            return .square
         }
     }
 }
@@ -31,7 +34,7 @@ enum ContentType: String, Codable, Sendable {
     case episode
     case audioBook = "audio_book"
     case audioArticle = "audio_article"
-    
+
     static func from(apiValue: String) -> ContentType {
         let normalized = apiValue.replacingOccurrences(of: " ", with: "_").lowercased()
         switch normalized {
@@ -39,10 +42,14 @@ enum ContentType: String, Codable, Sendable {
         case "episode": return .episode
         case "audio_book": return .audioBook
         case "audio_article": return .audioArticle
-        default: return .podcast
+        default:
+            logger.warning("Unknown content type: \(apiValue), falling back to .podcast")
+            return .podcast
         }
     }
 }
+
+private let logger = Logger(subsystem: "com.thmanyah.task", category: "SectionModel")
 
 enum SectionContentItem: Sendable {
     case podcast(PodcastContentModel)
@@ -56,11 +63,8 @@ struct SectionModel: Decodable, Sendable {
     let typeRaw: String
     let contentTypeRaw: String
     let order: Int
-    let contentPodcast: [PodcastContentModel]?
-    let contentEpisode: [EpisodeContentModel]?
-    let contentAudioBook: [AudioBookContentModel]?
-    let contentAudioArticle: [AudioArticleContentModel]?
-    
+    let items: [SectionContentItem]
+
     enum CodingKeys: String, CodingKey {
         case name
         case type
@@ -68,7 +72,7 @@ struct SectionModel: Decodable, Sendable {
         case order
         case content
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         name = try container.decode(String.self, forKey: .name)
@@ -76,35 +80,48 @@ struct SectionModel: Decodable, Sendable {
         contentTypeRaw = try container.decode(String.self, forKey: .content_type)
         let orderValue = try OrderValue(from: container.superDecoder(forKey: .order))
         order = orderValue.intValue
-        
+
+        let sectionName = name
         let contentType: ContentType = .from(apiValue: contentTypeRaw)
         switch contentType {
         case .podcast:
-            contentPodcast = try? container.decode([PodcastContentModel].self, forKey: .content)
-            contentEpisode = nil
-            contentAudioBook = nil
-            contentAudioArticle = nil
+            do {
+                let models = try container.decode([PodcastContentModel].self, forKey: .content)
+                items = models.map { .podcast($0) }
+            } catch {
+                logger.warning("Failed to decode podcast content for section '\(sectionName)': \(error.localizedDescription)")
+                items = []
+            }
         case .episode:
-            contentPodcast = nil
-            contentEpisode = try? container.decode([EpisodeContentModel].self, forKey: .content)
-            contentAudioBook = nil
-            contentAudioArticle = nil
+            do {
+                let models = try container.decode([EpisodeContentModel].self, forKey: .content)
+                items = models.map { .episode($0) }
+            } catch {
+                logger.warning("Failed to decode episode content for section '\(sectionName)': \(error.localizedDescription)")
+                items = []
+            }
         case .audioBook:
-            contentPodcast = nil
-            contentEpisode = nil
-            contentAudioBook = try? container.decode([AudioBookContentModel].self, forKey: .content)
-            contentAudioArticle = nil
+            do {
+                let models = try container.decode([AudioBookContentModel].self, forKey: .content)
+                items = models.map { .audioBook($0) }
+            } catch {
+                logger.warning("Failed to decode audioBook content for section '\(sectionName)': \(error.localizedDescription)")
+                items = []
+            }
         case .audioArticle:
-            contentPodcast = nil
-            contentEpisode = nil
-            contentAudioBook = nil
-            contentAudioArticle = try? container.decode([AudioArticleContentModel].self, forKey: .content)
+            do {
+                let models = try container.decode([AudioArticleContentModel].self, forKey: .content)
+                items = models.map { .audioArticle($0) }
+            } catch {
+                logger.warning("Failed to decode audioArticle content for section '\(sectionName)': \(error.localizedDescription)")
+                items = []
+            }
         }
     }
-    
+
     private struct OrderValue: Codable {
         let intValue: Int
-        
+
         init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             if let int = try? container.decode(Int.self) {
@@ -116,35 +133,22 @@ struct SectionModel: Decodable, Sendable {
             }
         }
     }
-    
+
     var layoutType: SectionType { SectionType.from(apiValue: typeRaw) }
     var contentType: ContentType { ContentType.from(apiValue: contentTypeRaw) }
-    var items: [SectionContentItem] {
-        if let podcast = contentPodcast { return podcast.map { .podcast($0) } }
-        if let episode = contentEpisode { return episode.map { .episode($0) } }
-        if let audioBook = contentAudioBook { return audioBook.map { .audioBook($0) } }
-        if let audioArticle = contentAudioArticle { return audioArticle.map { .audioArticle($0) } }
-        return []
-    }
-    
+
     init(
         name: String,
         typeRaw: String,
         contentTypeRaw: String,
         order: Int,
-        contentPodcast: [PodcastContentModel]? = nil,
-        contentEpisode: [EpisodeContentModel]? = nil,
-        contentAudioBook: [AudioBookContentModel]? = nil,
-        contentAudioArticle: [AudioArticleContentModel]? = nil
+        items: [SectionContentItem] = []
     ) {
         self.name = name
         self.typeRaw = typeRaw
         self.contentTypeRaw = contentTypeRaw
         self.order = order
-        self.contentPodcast = contentPodcast
-        self.contentEpisode = contentEpisode
-        self.contentAudioBook = contentAudioBook
-        self.contentAudioArticle = contentAudioArticle
+        self.items = items
     }
 }
 

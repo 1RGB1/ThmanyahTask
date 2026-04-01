@@ -132,7 +132,7 @@ final class SearchViewController: UIViewController {
             .store(in: &cancellables)
     }
     
-    private func updateUI(for state: SearchViewModel.SearchLoadingState) {
+    private func updateUI(for state: LoadingState) {
         emptyLabel.isHidden = true
         loadingIndicator.stopAnimating()
         errorLabel.isHidden = true
@@ -164,6 +164,9 @@ final class SearchViewController: UIViewController {
             } else {
                 embedResultsView(viewModel.sections)
             }
+
+        case .loadingMore, .tryAgain:
+            break
         }
     }
     

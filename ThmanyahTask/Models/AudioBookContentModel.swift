@@ -1,4 +1,4 @@
-// 
+//
 //  AudioBookContentModel.swift
 //  ThmanyahTask
 //
@@ -16,7 +16,7 @@ struct AudioBookContentModel: Codable, Sendable {
     let language: String?
     let releaseDate: String?
     let score: Double?
-    
+
     enum CodingKeys: String, CodingKey {
         case audiobookId = "audiobook_id"
         case name
@@ -28,7 +28,7 @@ struct AudioBookContentModel: Codable, Sendable {
         case releaseDate = "release_date"
         case score
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         audiobookId = try container.decode(String.self, forKey: .audiobookId)
@@ -36,9 +36,31 @@ struct AudioBookContentModel: Codable, Sendable {
         authorName = try? container.decode(String.self, forKey: .authorName)
         description = try? container.decode(String.self, forKey: .description)
         avatarUrl = try? container.decode(String.self, forKey: .avatarUrl)
-        duration = try? container.decode(Int?.self, forKey: .duration) ?? (try? container.decode(String.self, forKey: .duration)).flatMap(Int.init)
+        duration = FlexibleDecode.int(from: container, forKey: .duration)
         language = try? container.decode(String.self, forKey: .language)
         releaseDate = try? container.decode(String.self, forKey: .releaseDate)
-        score = try? container.decode(Double?.self, forKey: .score) ?? (try? container.decode(String.self, forKey: .duration)).flatMap(Double.init)
+        score = FlexibleDecode.double(from: container, forKey: .score)
+    }
+
+    init(
+        audiobookId: String,
+        name: String,
+        authorName: String? = nil,
+        description: String? = nil,
+        avatarUrl: String? = nil,
+        duration: Int? = nil,
+        language: String? = nil,
+        releaseDate: String? = nil,
+        score: Double? = nil
+    ) {
+        self.audiobookId = audiobookId
+        self.name = name
+        self.authorName = authorName
+        self.description = description
+        self.avatarUrl = avatarUrl
+        self.duration = duration
+        self.language = language
+        self.releaseDate = releaseDate
+        self.score = score
     }
 }

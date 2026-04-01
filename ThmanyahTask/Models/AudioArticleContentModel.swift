@@ -1,4 +1,4 @@
-// 
+//
 //  AudioArticleContentModel.swift
 //  ThmanyahTask
 //
@@ -15,7 +15,7 @@ struct AudioArticleContentModel: Codable, Sendable {
     let duration: Int?
     let releaseDate: String?
     let score: Double?
-    
+
     enum CodingKeys: String, CodingKey {
         case articleId = "article_id"
         case name
@@ -26,7 +26,7 @@ struct AudioArticleContentModel: Codable, Sendable {
         case releaseDate = "release_date"
         case score
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         articleId = try container.decode(String.self, forKey: .articleId)
@@ -34,9 +34,28 @@ struct AudioArticleContentModel: Codable, Sendable {
         authorName = try? container.decode(String.self, forKey: .authorName)
         description = try? container.decode(String.self, forKey: .description)
         avatarUrl = try? container.decode(String.self, forKey: .avatarUrl)
-        duration = try? container.decode(Int?.self, forKey: .duration) ?? (try? container.decode(String.self, forKey: .duration)).flatMap(Int.init)
+        duration = FlexibleDecode.int(from: container, forKey: .duration)
         releaseDate = try? container.decode(String.self, forKey: .releaseDate)
-        score = try? container.decode(Double?.self, forKey: .score) ?? (try? container.decode(String.self, forKey: .duration)).flatMap(Double.init)
-        
+        score = FlexibleDecode.double(from: container, forKey: .score)
+    }
+
+    init(
+        articleId: String,
+        name: String,
+        authorName: String? = nil,
+        description: String? = nil,
+        avatarUrl: String? = nil,
+        duration: Int? = nil,
+        releaseDate: String? = nil,
+        score: Double? = nil
+    ) {
+        self.articleId = articleId
+        self.name = name
+        self.authorName = authorName
+        self.description = description
+        self.avatarUrl = avatarUrl
+        self.duration = duration
+        self.releaseDate = releaseDate
+        self.score = score
     }
 }

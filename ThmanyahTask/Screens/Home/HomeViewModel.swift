@@ -1,4 +1,4 @@
-// 
+//
 //  HomeViewModel.swift
 //  ThmanyahTask
 //
@@ -14,44 +14,35 @@ final class HomeViewModel: ObservableObject {
     @Published private(set) var loadingState: LoadingState = .idle
     @Published private(set) var sections: [SectionModel] = []
     @Published private(set) var nextPage: Int?
-    
-    enum LoadingState: Equatable {
-        case idle
-        case loading
-        case loaded
-        case loadingMore
-        case error(String)
-        case tryAgain
-    }
-    
+
     private let service: HomeServiceProtocol
     private var currentPage = 1
-    
+
     init(service: HomeServiceProtocol = HomeService()) {
         self.service = service
     }
-    
+
     func loadInitial() async {
         guard loadingState != .loading else { return }
-        
+
         loadingState = .loading
         sections = []
         currentPage = 1
-        
+
         await fetchPage(1)
     }
-    
+
     func loadNextPageIfNeeded(currentSectionIndex: Int) async {
         guard case .loaded = loadingState,
               let nextPage,
               currentSectionIndex >= sections.count - 2
         else { return }
-        
+
         loadingState = .loadingMore
-        
+
         await fetchPage(nextPage)
     }
-    
+
     private func fetchPage(_ page: Int) async {
         do {
             let (newSections, next) = try await service.fetchSections(page: page)
